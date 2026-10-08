@@ -29,7 +29,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t kaushal7970/springboot-k8s-demo:%BUILD_NUMBER% -t kaushal7970/springboot-k8s-demo:latest -f dockerfile .'
+                bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && docker --version && docker build -t kaushal7970/springboot-k8s-demo:%BUILD_NUMBER% -t kaushal7970/springboot-k8s-demo:latest -f dockerfile .'
             }
         }
 
@@ -42,7 +42,7 @@ pipeline {
                         passwordVariable: 'DOCKER_PASSWORD'
                     )
                 ]) {
-                    bat 'echo %DOCKER_PASSWORD%| docker login -u %DOCKER_USER% --password-stdin'
+                    bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && echo %DOCKER_PASSWORD%| docker login -u %DOCKER_USER% --password-stdin'
                     bat 'docker push kaushal7970/springboot-k8s-demo:%BUILD_NUMBER%'
                     bat 'docker push kaushal7970/springboot-k8s-demo:latest'
                 }
@@ -60,3 +60,4 @@ pipeline {
         }
     }
 }
+
