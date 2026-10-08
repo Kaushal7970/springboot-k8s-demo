@@ -51,8 +51,8 @@ pipeline {
 
         stage('Kubernetes Deploy') {
             steps {
-                withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl apply -f k8s/deployment.yaml' }
-                withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl apply -f k8s/service.yaml' }
+                withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl apply --validate=false -f k8s/deployment.yaml' }
+                withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl apply --validate=false -f k8s/service.yaml' }
                 withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl set image deployment/springboot-k8s-demo springboot-k8s-demo=kaushal7970/springboot-k8s-demo:%BUILD_NUMBER%' }
                 withEnv(['PATH+DOCKER=C:\\Users\\kaush\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin']) { bat 'kubectl rollout status deployment/springboot-k8s-demo' }
             }
