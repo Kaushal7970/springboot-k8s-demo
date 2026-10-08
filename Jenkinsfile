@@ -43,9 +43,18 @@ pipeline {
                     )
                 ]) {
                     bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && echo %DOCKER_PASSWORD%| docker login -u %DOCKER_USER% --password-stdin'
-                    bat 'docker push kaushal7970/springboot-k8s-demo:%BUILD_NUMBER%'
-                    bat 'docker push kaushal7970/springboot-k8s-demo:latest'
+                    bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && docker push kaushal7970/springboot-k8s-demo:%BUILD_NUMBER%'
+                    bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && docker push kaushal7970/springboot-k8s-demo:latest'
                 }
+            }
+        }
+
+        stage('Kubernetes Deploy') {
+            steps {
+                bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && kubectl apply -f k8s/deployment.yaml'
+                bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && kubectl apply -f k8s/service.yaml'
+                bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && kubectl set image deployment/springboot-k8s-demo springboot-k8s-demo=kaushal7970/springboot-k8s-demo:%BUILD_NUMBER%'
+                bat 'set "PATH=C:\Users\kaush\AppData\Local\Programs\DockerDesktop\resources\bin;%PATH%" && kubectl rollout status deployment/springboot-k8s-demo'
             }
         }
     }
